@@ -2,26 +2,22 @@ package com.teamabnormals.upgrade_aquatic.common.entity.animal;
 
 import com.google.common.collect.Lists;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
-import net.minecraft.tags.BiomeTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.Weight;
 import net.minecraft.util.random.WeightedEntry;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author SmellyModder (Luke Tonon)
  */
 public enum PikeType {
-	AMUR(1, PikeSize.SMALL, PikeRarity.UNCOMMON, null, Tags.Biomes.IS_SWAMP),
-	REDFIN_PICKEREL(2, PikeSize.SMALL, PikeRarity.COMMON, null, null),
+	AMUR(1, PikeSize.SMALL, PikeRarity.UNCOMMON, null, Biome.BiomeCategory.SWAMP),
+	REDFIN(2, PikeSize.SMALL, PikeRarity.COMMON, null, null),
 	BROWN_NORTHERN(3, PikeSize.LARGE, PikeRarity.COMMON, 8, null),
 	MAHOGANY_NORTHERN(4, PikeSize.LARGE, PikeRarity.UNCOMMON, 9, null),
 	JADE_NORTHERN(5, PikeSize.LARGE, PikeRarity.RARE, 10, null),
@@ -33,9 +29,9 @@ public enum PikeType {
 	SPOTTED_OLIVE_NORTHERN(11, PikeSize.LARGE, PikeRarity.SUPER_RARE, null, null),
 	SUPERCHARGED(12, PikeSize.LARGE, PikeRarity.LEGENDARY, null, null),
 	OBSIDIAN(13, PikeSize.LARGE, PikeRarity.LEGENDARY, null, null),
-	MUSKELLUNGE(14, PikeSize.HUGE, PikeRarity.SUPER_RARE, null, BiomeTags.IS_RIVER),
-	CHAIN_PICKEREL(15, PikeSize.SMALL, PikeRarity.COMMON, null, BiomeTags.IS_RIVER),
-	GRASS_PICKEREL(16, PikeSize.SMALL, PikeRarity.COMMON, null, Tags.Biomes.IS_SWAMP),
+	MUSKELLUNGE(14, PikeSize.HUGE, PikeRarity.SUPER_RARE, null, Biome.BiomeCategory.RIVER),
+	CHAIN_PICKEREL(15, PikeSize.SMALL, PikeRarity.COMMON, null, Biome.BiomeCategory.RIVER),
+	GRASS_PICKEREL(16, PikeSize.SMALL, PikeRarity.COMMON, null, Biome.BiomeCategory.SWAMP),
 	BLACK_SOUTHERN(17, PikeSize.MEDIUM, PikeRarity.COMMON, null, null),
 	EBONY_SOUTHERN(18, PikeSize.MEDIUM, PikeRarity.UNCOMMON, null, null),
 	MUSTARD_SOUTHERN(19, PikeSize.MEDIUM, PikeRarity.RARE, null, null),
@@ -48,9 +44,9 @@ public enum PikeType {
 	@Nullable
 	private final Integer spottedVariant;
 	@Nullable
-	private final TagKey<Biome> biomeCategory;
+	private final Biome.BiomeCategory biomeCategory;
 
-	PikeType(int id, PikeSize pikeSize, PikeRarity rarity, @Nullable Integer spottedVariant, @Nullable TagKey<Biome> biomeCategory) {
+	PikeType(int id, PikeSize pikeSize, PikeRarity rarity, @Nullable Integer spottedVariant, @Nullable Biome.BiomeCategory biomeCategory) {
 		this.id = id;
 		this.pikeSize = pikeSize;
 		this.rarity = rarity;
@@ -65,18 +61,18 @@ public enum PikeType {
 		return PikeType.AMUR;
 	}
 
-	public static PikeType getRandom(RandomSource rand, Holder<Biome> category, boolean fromBucket) {
+	public static PikeType getRandom(Random rand, Biome.BiomeCategory category, boolean fromBucket) {
 		List<PikeType> possibleTypes = getPossibleTypes(category, WeightedRandomList.create(PikeRarity.values()).getRandom(rand).orElseThrow(), fromBucket);
 		PikeType type = possibleTypes.get(rand.nextInt(possibleTypes.size()));
 		Integer spottedVariant = type.spottedVariant;
 		return spottedVariant != null && rand.nextFloat() < 0.2F ? PikeType.getTypeById(spottedVariant) : type;
 	}
 
-	private static List<PikeType> getPossibleTypes(Holder<Biome> category, PikeRarity rarity, boolean fromBucket) {
+	private static List<PikeType> getPossibleTypes(Biome.BiomeCategory category, PikeRarity rarity, boolean fromBucket) {
 		List<PikeType> pikeTypes = Lists.newArrayList();
 		HashSet<PikeType> spotted = new HashSet<>();
 		for (PikeType type : PikeType.values()) {
-			if ((fromBucket || type.biomeCategory == null || category.is(type.biomeCategory)) && type.rarity == rarity && !spotted.contains(type)) {
+			if ((fromBucket || type.biomeCategory == null || type.biomeCategory == category) && type.rarity == rarity && !spotted.contains(type)) {
 				Integer spottedVariant = type.spottedVariant;
 				if (spottedVariant != null) {
 					spotted.add(PikeType.getTypeById(spottedVariant));

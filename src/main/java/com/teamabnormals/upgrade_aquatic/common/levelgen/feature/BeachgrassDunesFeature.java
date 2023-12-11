@@ -5,7 +5,7 @@ import com.teamabnormals.upgrade_aquatic.common.block.TallBeachgrassBlock;
 import com.teamabnormals.upgrade_aquatic.core.registry.UABlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.RandomSource;
+
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.DoublePlantBlock;
@@ -13,6 +13,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+
+import java.util.Random;
 
 public class BeachgrassDunesFeature extends Feature<NoneFeatureConfiguration> {
 
@@ -23,7 +25,7 @@ public class BeachgrassDunesFeature extends Feature<NoneFeatureConfiguration> {
 	@Override
 	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
 		WorldGenLevel world = context.level();
-		RandomSource rand = context.random();
+		Random rand = context.random();
 		BlockPos pos = context.origin();
 
 		for (BlockState blockstate = world.getBlockState(pos); (world.isEmptyBlock(pos) || blockstate.is(BlockTags.LEAVES)) && pos.getY() > 0; blockstate = world.getBlockState(pos)) {
@@ -47,7 +49,7 @@ public class BeachgrassDunesFeature extends Feature<NoneFeatureConfiguration> {
 		return grassesPlaced > 0;
 	}
 
-	private void placeBeachgrass(LevelAccessor world, BlockPos pos, RandomSource rand) {
+	private void placeBeachgrass(LevelAccessor world, BlockPos pos, Random rand) {
 		if (rand.nextFloat() < 0.30F) {
 			TallBeachgrassBlock plant = (TallBeachgrassBlock) UABlocks.TALL_BEACHGRASS.get();
 			if (world.isEmptyBlock(pos) && world.isEmptyBlock(pos.above())) {

@@ -9,6 +9,8 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.EnumSet;
 
+import net.minecraft.world.entity.ai.goal.Goal.Flag;
+
 public final class PikeTemptGoal extends Goal {
 	private static final TargetingConditions CAN_FOLLOW = TargetingConditions.forNonCombat().range(10.0D).ignoreLineOfSight();
 	private final Pike pike;

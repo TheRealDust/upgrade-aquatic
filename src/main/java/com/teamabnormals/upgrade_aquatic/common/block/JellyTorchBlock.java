@@ -6,7 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.RandomSource;
+
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -23,6 +23,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.function.Supplier;
+import java.util.Random;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class JellyTorchBlock extends TorchBlock implements SimpleWaterloggedBlock {
 	private final JellyTorchType torchType;
@@ -36,7 +39,7 @@ public class JellyTorchBlock extends TorchBlock implements SimpleWaterloggedBloc
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource rand) {
+	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand) {
 		double xOffset = rand.nextBoolean() ? -(Math.random() * 0.1) : (Math.random() * 0.1);
 		double yOffset = rand.nextBoolean() ? -(Math.random() * 0.1) : (Math.random() * 0.1);
 		double zOffset = rand.nextBoolean() ? -(Math.random() * 0.1) : (Math.random() * 0.1);

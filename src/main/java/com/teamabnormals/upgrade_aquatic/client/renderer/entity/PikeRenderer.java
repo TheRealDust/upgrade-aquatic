@@ -22,7 +22,7 @@ public class PikeRenderer extends MobRenderer<Pike, PikeModel<Pike>> {
 	public PikeRenderer(EntityRendererProvider.Context context) {
 		super(context, new PikeModel<>(context.bakeLayer(PikeModel.LOCATION)), 0.6F);
 		this.addLayer(new GlowingPikeRenderLayer<>(this));
-		this.addLayer(new PikeCarriedItemRenderLayer(this, context.getItemInHandRenderer()));
+		this.addLayer(new PikeCarriedItemRenderLayer(this));
 	}
 
 	@Override

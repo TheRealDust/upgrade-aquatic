@@ -11,6 +11,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CoralBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class PrismarineCoralBlock extends CoralBlock {
 	private static final TargetedItemCategoryFiller FILLER = new TargetedItemCategoryFiller(() -> Items.HORN_CORAL_BLOCK);
 

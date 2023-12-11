@@ -7,7 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RandomSource;
+
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -28,6 +28,9 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
+import java.util.Random;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 @SuppressWarnings("deprecation")
 public class CoralstoneStairsBlock extends StairBlock {
@@ -53,7 +56,7 @@ public class CoralstoneStairsBlock extends StairBlock {
 	}
 
 	@Override
-	public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
+	public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random) {
 		if (!worldIn.isAreaLoaded(pos, 3)) return;
 
 		if (this.growableCoralBlocks == null && state.getBlock() != UABlocks.DEAD_CORALSTONE_STAIRS.get()) {

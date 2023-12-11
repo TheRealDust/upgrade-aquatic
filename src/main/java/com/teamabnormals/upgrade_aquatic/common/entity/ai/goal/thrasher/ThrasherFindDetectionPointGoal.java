@@ -2,7 +2,7 @@ package com.teamabnormals.upgrade_aquatic.common.entity.ai.goal.thrasher;
 
 import com.teamabnormals.upgrade_aquatic.common.entity.monster.Thrasher;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
+
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -11,6 +11,7 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.phys.AABB;
 
 import java.util.EnumSet;
+import java.util.Random;
 
 public class ThrasherFindDetectionPointGoal extends Goal {
 	public Thrasher thrasher;
@@ -47,7 +48,7 @@ public class ThrasherFindDetectionPointGoal extends Goal {
 
 	public void tick() {
 		this.ticksPassed++;
-		RandomSource rand = this.thrasher.getRandom();
+		Random rand = this.thrasher.getRandom();
 		this.foundPos = this.foundTarget.blockPosition().offset(rand.nextInt(2), rand.nextInt(2), rand.nextInt(2));
 	}
 

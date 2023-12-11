@@ -11,6 +11,8 @@ import net.minecraftforge.common.ForgeSpawnEggItem;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class JellyfishSpawnEggItem extends ForgeSpawnEggItem {
 
 	public JellyfishSpawnEggItem(int primaryColor, int secondaryColor, Properties properties) {

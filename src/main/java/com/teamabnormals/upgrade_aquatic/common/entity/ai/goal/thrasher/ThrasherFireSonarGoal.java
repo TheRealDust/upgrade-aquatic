@@ -15,6 +15,8 @@ import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.function.BiPredicate;
 
+import net.minecraft.world.entity.ai.goal.Goal.Flag;
+
 public class ThrasherFireSonarGoal extends Goal {
 	public Thrasher thrasher;
 	private int turnTicks;

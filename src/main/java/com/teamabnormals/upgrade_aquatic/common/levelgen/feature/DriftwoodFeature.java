@@ -10,7 +10,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RandomSource;
+
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
@@ -24,6 +24,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class DriftwoodFeature extends Feature<NoneFeatureConfiguration> {
 
@@ -34,7 +35,7 @@ public class DriftwoodFeature extends Feature<NoneFeatureConfiguration> {
 	@Override
 	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
 		WorldGenLevel world = context.level();
-		RandomSource rand = context.random();
+		Random rand = context.random();
 		BlockPos pos = context.origin();
 
 		boolean standing = rand.nextFloat() < 0.25F;
@@ -156,7 +157,7 @@ public class DriftwoodFeature extends Feature<NoneFeatureConfiguration> {
 		else world.setBlock(pos, UABlocks.DRIFTWOOD_LOG.get().defaultBlockState().setValue(RotatedPillarBlock.AXIS, direction.getAxis()), 2);
 	}
 
-	private void placeBranch(LevelAccessor world, BlockPos startPos, Direction direction, RandomSource rand, boolean isLarge, GenerationPiece driftwood) {
+	private void placeBranch(LevelAccessor world, BlockPos startPos, Direction direction, Random rand, boolean isLarge, GenerationPiece driftwood) {
 		int size = isLarge ? rand.nextInt(2) + 1 : 1;
 
 		Direction branchDirection = rand.nextBoolean() ? direction.getClockWise() : direction.getCounterClockWise();

@@ -5,10 +5,9 @@ import com.teamabnormals.blueprint.core.endimator.PlayableEndimation;
 import com.teamabnormals.blueprint.core.endimator.TimedEndimation;
 import com.teamabnormals.blueprint.core.util.NetworkUtil;
 import com.teamabnormals.upgrade_aquatic.common.entity.ai.goal.thrasher.*;
-import com.teamabnormals.upgrade_aquatic.core.UAConfig;
+import com.teamabnormals.upgrade_aquatic.common.entity.animal.Lionfish;
 import com.teamabnormals.upgrade_aquatic.core.other.UADataSerializers;
-import com.teamabnormals.upgrade_aquatic.core.other.tags.UABiomeTags;
-import com.teamabnormals.upgrade_aquatic.core.other.tags.UAEntityTypeTags;
+import com.teamabnormals.upgrade_aquatic.core.other.UAEntityTypeTags;
 import com.teamabnormals.upgrade_aquatic.core.registry.UAEntityTypes;
 import com.teamabnormals.upgrade_aquatic.core.registry.UAItems;
 import com.teamabnormals.upgrade_aquatic.core.registry.UAPlayableEndimations;
@@ -24,8 +23,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -37,12 +34,18 @@ import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
+import net.minecraft.world.entity.animal.Pufferfish;
+import net.minecraft.world.entity.animal.Squid;
+import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -103,8 +106,9 @@ public class Thrasher extends Monster implements Endimatable {
 				.add(Attributes.ARMOR, 8.0D);
 	}
 
-	public static boolean checkThrasherSpawnRules(EntityType<? extends PathfinderMob> entityType, ServerLevelAccessor level, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
-		return level.getDifficulty() != Difficulty.PEACEFUL && pos.getY() <= UAConfig.COMMON.thrasherMaxSpawnHeight.get() && (level.getLevel().isNight() || random.nextDouble() < UAConfig.COMMON.thrasherDaytimeSpawnChance.get());
+	public static boolean thrasherCondition(EntityType<? extends PathfinderMob> entityType, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
+		if (((Level) world).dimension() != Level.OVERWORLD) return false;
+		return pos.getY() <= 30 && (((Level) world).isNight() || random.nextFloat() < 0.75F);
 	}
 
 	@Override
@@ -136,9 +140,9 @@ public class Thrasher extends Monster implements Endimatable {
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
 		this.setAirSupply(this.getMaxAirSupply());
-		if (reason == MobSpawnType.NATURAL && worldIn.getBiome(this.blockPosition()).is(UABiomeTags.HAS_GREAT_THRASHER)) {
+		if (reason == MobSpawnType.NATURAL && worldIn.getBiome(this.blockPosition()).value().getRegistryName().equals(Biomes.DEEP_FROZEN_OCEAN.location())) {
 			Random rand = new Random();
-			if (rand.nextDouble() < UAConfig.COMMON.greatThrasherSpawnChance.get()) {
+			if (rand.nextFloat() < 0.25F) {
 				GreatThrasher greatThrasher = UAEntityTypes.GREAT_THRASHER.get().create(this.level);
 				if (greatThrasher != null) {
 					greatThrasher.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());

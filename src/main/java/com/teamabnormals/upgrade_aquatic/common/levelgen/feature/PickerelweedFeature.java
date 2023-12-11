@@ -7,20 +7,19 @@ import com.teamabnormals.upgrade_aquatic.common.block.PickerelweedPlantBlock;
 import com.teamabnormals.upgrade_aquatic.core.registry.UABlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.common.Tags;
 
+import java.util.Random;
 import java.util.function.Supplier;
 
 /**
@@ -37,18 +36,18 @@ public class PickerelweedFeature extends Feature<NoneFeatureConfiguration> {
 	@Override
 	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
 		WorldGenLevel worldIn = context.level();
-		RandomSource rand = context.random();
+		Random rand = context.random();
 		BlockPos pos = context.origin();
 		Holder<Biome> biome = worldIn.getBiome(pos);
 		if (isValidBlock(worldIn, pos) && this.shouldPlace(worldIn, pos) && BLUE_PICKERELWEED.get().canSurvive(worldIn, pos.below())) {
-			if (biome.is(BiomeTags.IS_RIVER) || biome.is(Tags.Biomes.IS_SWAMP) || biome.is(Biomes.FLOWER_FOREST)) {
+			if (Biome.getBiomeCategory(biome) == BiomeCategory.RIVER || Biome.getBiomeCategory(biome) == BiomeCategory.SWAMP || biome.value().getRegistryName().equals(Biomes.FLOWER_FOREST.location())) {
 				boolean purpleGen;
-				if (biome.is(Tags.Biomes.IS_SWAMP)) {
+				if (Biome.getBiomeCategory(biome) == BiomeCategory.SWAMP) {
 					purpleGen = rand.nextFloat() >= 0.60D;
 				} else {
 					purpleGen = !(rand.nextFloat() >= 0.60D);
 				}
-				if (rand.nextDouble() <= 0.90D) {
+				if (rand.nextInt() <= 0.90D) {
 					this.generatePickerelweedPatch(worldIn, pos, purpleGen, rand.nextInt(8));
 				}
 			} else {
@@ -61,7 +60,7 @@ public class PickerelweedFeature extends Feature<NoneFeatureConfiguration> {
 					purpleGen = !(rand.nextFloat() >= 0.75D);
 				}
 
-				if (rand.nextDouble() <= 0.35D) {
+				if (rand.nextInt() <= 0.35D) {
 					this.generatePickerelweedPatch(worldIn, pos, purpleGen, rand.nextInt(8));
 				}
 			}

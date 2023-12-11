@@ -6,6 +6,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TridentItem;
 import org.spongepowered.asm.mixin.Mixin;
 
+import net.minecraft.world.item.Item.Properties;
+
 @Mixin(TridentItem.class)
 public abstract class TridentItemMixin extends Item {
 

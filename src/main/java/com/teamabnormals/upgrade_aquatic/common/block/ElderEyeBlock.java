@@ -33,6 +33,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class ElderEyeBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
 	public static final BooleanProperty POWERED = BooleanProperty.create("powered");
 	public static final BooleanProperty ACTIVE = BooleanProperty.create("active");

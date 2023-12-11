@@ -6,7 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.util.RandomSource;
+
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -16,6 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 
 import java.util.TreeMap;
+import java.util.Random;
 
 public abstract class ColoredSizableJellyfish extends AbstractJellyfish {
 	protected static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(ColoredSizableJellyfish.class, EntityDataSerializers.INT);
@@ -60,7 +61,7 @@ public abstract class ColoredSizableJellyfish extends AbstractJellyfish {
 		spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
 		boolean updateSize = false;
 
-		RandomSource rand = this.getRandom();
+		Random rand = this.getRandom();
 		int color = rand.nextInt(3);
 		float size = this.getNaturalSizeMap().randomSize(rand);
 		boolean fromBucket = this.fromBucket();

@@ -15,6 +15,8 @@ import net.minecraft.world.level.material.Fluid;
 
 import java.util.function.Supplier;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class GlowSquidBucketItem extends SquidBucketItem {
 	private static final TargetedItemCategoryFiller FILLER = new TargetedItemCategoryFiller(UAItems.SQUID_BUCKET);
 

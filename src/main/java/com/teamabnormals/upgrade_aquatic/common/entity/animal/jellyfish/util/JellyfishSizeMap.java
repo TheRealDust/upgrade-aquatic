@@ -1,13 +1,15 @@
 package com.teamabnormals.upgrade_aquatic.common.entity.animal.jellyfish.util;
 
 import com.teamabnormals.blueprint.core.Blueprint;
-import net.minecraft.util.RandomSource;
+
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import java.util.Random;
 
 public class JellyfishSizeMap {
 	protected final TreeMap<Float, Integer> sizeMap;
@@ -30,7 +32,7 @@ public class JellyfishSizeMap {
 		return this.totalWeight;
 	}
 
-	public float randomSize(RandomSource rand) throws RuntimeException {
+	public float randomSize(Random rand) throws RuntimeException {
 		int denominator = this.getTotalWeight();
 		for (Map.Entry<Float, Integer> sizeEntry : this.entrySet()) {
 			int weight = sizeEntry.getValue();

@@ -22,6 +22,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class PickerelweedBlock extends DirectionalBlock implements SimpleWaterloggedBlock {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	private static final VoxelShape[] SHAPES = new VoxelShape[]{

@@ -27,7 +27,7 @@ import net.minecraft.stats.Stat;
 import net.minecraft.stats.Stats;
 import net.minecraft.stats.StatsCounter;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RandomSource;
+
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -53,16 +53,13 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctions;
-import net.minecraft.world.level.storage.loot.functions.SmeltItemFunction;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.entity.player.PlayerSetSpawnEvent;
@@ -75,13 +72,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Optional;
+import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = UpgradeAquatic.MOD_ID)
 public class UAEvents {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public static void onEntitySpawned(EntityJoinLevelEvent event) {
-		if (event.getLevel().isClientSide) return;
+	public static void onEntitySpawned(EntityJoinWorldEvent event) {
+		if (event.getWorld().isClientSide) return;
 
 		Entity entity = event.getEntity();
 		if (entity instanceof Drowned drowned) {
@@ -104,8 +102,8 @@ public class UAEvents {
 	}
 
 	@SubscribeEvent
-	public static void onEntityUpdate(LivingTickEvent event) {
-		LivingEntity entity = event.getEntity();
+	public static void onEntityUpdate(LivingUpdateEvent event) {
+		LivingEntity entity = (LivingEntity) event.getEntity();
 		if (entity instanceof Phantom) {
 			if (((Phantom) entity).getTarget() instanceof ServerPlayer serverPlayer) {
 				StatsCounter statisticsManager = serverPlayer.getStats();
@@ -122,7 +120,7 @@ public class UAEvents {
 
 	@SubscribeEvent
 	public static void onPlayerSleep(PlayerSleepInBedEvent event) {
-		Player player = event.getEntity();
+		Player player = (Player) event.getEntity();
 		BlockState state = player.getCommandSenderWorld().getBlockState(event.getPos());
 		if (event.getResultStatus() == null && state.getFluidState().getAmount() == 8 && state.getBlock() instanceof BedrollBlock) {
 			if (player instanceof ServerPlayer serverPlayer && player.isAlive()) {
@@ -143,7 +141,7 @@ public class UAEvents {
 	@SubscribeEvent
 	public static void onInteractEntity(EntityInteract event) {
 		Entity entity = event.getTarget();
-		Player player = event.getEntity();
+		Player player = (Player) event.getEntity();
 		ItemStack stack = event.getItemStack();
 		if (stack.getItem() == Items.WATER_BUCKET && entity.isAlive() && entity instanceof Squid squid) {
 			squid.playSound(SoundEvents.BUCKET_FILL_FISH, 1.0F, 1.0F);
@@ -159,13 +157,13 @@ public class UAEvents {
 			Bucketable.saveDefaultDataToBucketTag(squid, bucket);
 			ItemStack itemstack2 = ItemUtils.createFilledResult(stack, player, bucket, false);
 			player.setItemInHand(event.getHand(), itemstack2);
-			if (!event.getLevel().isClientSide()) {
+			if (!event.getWorld().isClientSide()) {
 				CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, bucket);
 			}
 
 			entity.discard();
 			event.setCanceled(true);
-			event.setCancellationResult(InteractionResult.sidedSuccess(event.getLevel().isClientSide()));
+			event.setCancellationResult(InteractionResult.sidedSuccess(event.getWorld().isClientSide()));
 		}
 	}
 
@@ -231,12 +229,12 @@ public class UAEvents {
 
 	@SubscribeEvent
 	public static void onRightClickBlock(RightClickBlock event) {
-		Level level = event.getLevel();
+		Level level = event.getWorld();
 		BlockPos pos = event.getPos();
 		BlockState state = level.getBlockState(pos);
-		Player player = event.getEntity();
+		Player player = (Player) event.getEntity();
 		ItemStack stack = event.getItemStack();
-		RandomSource random = player.getRandom();
+		Random random = player.getRandom();
 
 		if (stack.is(Items.GLOW_INK_SAC)) {
 			ResourceLocation name = ForgeRegistries.BLOCKS.getKey(state.getBlock());

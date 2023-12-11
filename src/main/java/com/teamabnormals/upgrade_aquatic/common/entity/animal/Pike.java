@@ -27,7 +27,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -44,7 +43,6 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -53,6 +51,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -61,10 +60,10 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Predicate;
 
 public class Pike extends BucketableWaterAnimal {
@@ -276,10 +275,9 @@ public class Pike extends BucketableWaterAnimal {
 	}
 
 	@Nullable
-	@Override
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, SpawnGroupData spawnDataIn, CompoundTag dataTag) {
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, SpawnGroupData spawnDataIn, CompoundTag dataTag, Random rand) {
 		spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
-		int type = PikeType.getRandom(this.random, level.getBiome(this.blockPosition()), reason == MobSpawnType.BUCKET).id;
+		int type = PikeType.getRandom(this.random, Biome.getBiomeCategory(level.getBiome(this.blockPosition())), reason == MobSpawnType.BUCKET).id;
 		if (dataTag != null && dataTag.contains("BucketVariantTag", 3)) {
 			this.setPikeType(PikeType.getTypeById(dataTag.getInt("BucketVariantTag")));
 			this.dropEatingLootCooldown = dataTag.getInt("EatingLootDropCooldown");
@@ -317,13 +315,14 @@ public class Pike extends BucketableWaterAnimal {
 		return spawnDataIn;
 	}
 
-	public static boolean checkPikeSpawnRules(EntityType<? extends Pike> entityType, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+	public static boolean pickerelCondition(EntityType<? extends Pike> entityType, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
+		if (((Level) world).dimension() != Level.OVERWORLD) return false;
 		for (int yy = pos.getY() - 2; yy <= pos.getY() + 2; yy++) {
 			for (int xx = pos.getX() - 6; xx <= pos.getX() + 6; xx++) {
 				for (int zz = pos.getZ() - 6; zz <= pos.getZ() + 6; zz++) {
 					if (world.getBlockState(new BlockPos(xx, yy, zz)).getBlock() instanceof PickerelweedPlantBlock || world.getBlockState(new BlockPos(xx, yy, zz)).getBlock() instanceof PickerelweedDoublePlantBlock) {
 						if (random.nextFloat() <= 0.125F)
-							if (world.getBiome(pos).is(Tags.Biomes.IS_SWAMP)) {
+							if (Biome.getBiomeCategory(world.getBiome(pos)) == Biome.BiomeCategory.SWAMP) {
 								return random.nextFloat() <= 0.25F;
 							}
 						return true;
@@ -345,7 +344,7 @@ public class Pike extends BucketableWaterAnimal {
 			this.setLit(true);
 			return InteractionResult.SUCCESS;
 		} else {
-			return Bucketable.bucketMobPickup(player, hand, this).orElse(super.mobInteract(player, hand));
+			return super.mobInteract(player, hand);
 		}
 	}
 

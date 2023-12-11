@@ -56,7 +56,7 @@ public final class UAAdvancementModifierProvider extends AdvancementModifierProv
 		CriteriaModifier.Builder killAllMobs = CriteriaModifier.builder(this.modId);
 		ArrayList<String> names = new ArrayList<>();
 		for (EntityType<?> entityType : MOBS_TO_KILL) {
-			String name = ForgeRegistries.ENTITY_TYPES.getKey(entityType).getPath();
+			String name = ForgeRegistries.ENTITIES.getKey(entityType).getPath();
 			KilledTrigger.TriggerInstance triggerInstance = KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(entityType));
 			killAMob.addCriterion(name, triggerInstance);
 			killAllMobs.addCriterion(name, triggerInstance);

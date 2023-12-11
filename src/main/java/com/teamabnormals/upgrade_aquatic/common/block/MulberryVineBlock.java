@@ -10,7 +10,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -38,6 +37,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IForgeShearable;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class MulberryVineBlock extends Block implements IForgeShearable, BonemealableBlock {
@@ -85,7 +85,7 @@ public class MulberryVineBlock extends Block implements IForgeShearable, Bonemea
 	}
 
 	@Override
-	public boolean isBonemealSuccess(Level arg0, RandomSource arg1, BlockPos arg2, BlockState state) {
+	public boolean isBonemealSuccess(Level arg0, Random arg1, BlockPos arg2, BlockState state) {
 		return state.getValue(AGE) < 4;
 	}
 
@@ -122,7 +122,7 @@ public class MulberryVineBlock extends Block implements IForgeShearable, Bonemea
 	}
 
 	@Override
-	public void performBonemeal(ServerLevel level, RandomSource rand, BlockPos pos, BlockState state) {
+	public void performBonemeal(ServerLevel level, Random rand, BlockPos pos, BlockState state) {
 		int i = state.getValue(AGE);
 		if (i < 4 && ForgeHooks.onCropsGrowPre(level, pos, state, true)) {
 			level.setBlockAndUpdate(pos, state.setValue(AGE, i + 1));
@@ -131,7 +131,7 @@ public class MulberryVineBlock extends Block implements IForgeShearable, Bonemea
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand) {
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rand) {
 		super.tick(state, level, pos, rand);
 		int i = state.getValue(AGE);
 		if (i < 4 && level.getRawBrightness(pos.above(), 0) >= 7 && ForgeHooks.onCropsGrowPre(level, pos, state, rand.nextInt(5) == 0)) {
@@ -141,7 +141,7 @@ public class MulberryVineBlock extends Block implements IForgeShearable, Bonemea
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState stateIn, Level level, BlockPos pos, RandomSource rand) {
+	public void animateTick(BlockState stateIn, Level level, BlockPos pos, Random rand) {
 		if (level.isRainingAt(pos.above())) {
 			if (rand.nextInt(15) == 1) {
 				BlockPos blockpos = pos.below();

@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.RandomSource;
+
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -23,6 +23,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.Random;
+
 
 public class JellyWallTorchBlock extends JellyTorchBlock {
 	public static final DirectionProperty HORIZONTAL_FACING = HorizontalDirectionalBlock.FACING;
@@ -72,7 +74,7 @@ public class JellyWallTorchBlock extends JellyTorchBlock {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
+	public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
 		Direction direction = state.getValue(HORIZONTAL_FACING);
 		double xOffset = random.nextBoolean() ? -(Math.random() * 0.075) : (Math.random() * 0.075);
 		double yOffset = random.nextBoolean() ? -(Math.random() * 0.075) : (Math.random() * 0.075);

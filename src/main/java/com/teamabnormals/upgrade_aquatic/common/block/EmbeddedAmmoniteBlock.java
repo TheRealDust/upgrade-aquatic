@@ -7,6 +7,8 @@ import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class EmbeddedAmmoniteBlock extends DirectionalBlock {
 
 	public EmbeddedAmmoniteBlock(Properties builder) {

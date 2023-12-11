@@ -7,7 +7,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -38,6 +37,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
+import java.util.Random;
+
 
 public class PickerelweedDoublePlantBlock extends Block implements BonemealableBlock, SimpleWaterloggedBlock {
 	protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
@@ -155,12 +156,12 @@ public class PickerelweedDoublePlantBlock extends Block implements BonemealableB
 	}
 
 	@Override
-	public boolean isBonemealSuccess(Level worldIn, RandomSource rand, BlockPos pos, BlockState state) {
+	public boolean isBonemealSuccess(Level worldIn, Random rand, BlockPos pos, BlockState state) {
 		return true;
 	}
 
 	@Override
-	public void performBonemeal(ServerLevel worldIn, RandomSource rand, BlockPos pos, BlockState state) {
+	public void performBonemeal(ServerLevel worldIn, Random rand, BlockPos pos, BlockState state) {
 		if (!worldIn.isClientSide) {
 			cont:
 			for (int i = 0; i < 128; ++i) {

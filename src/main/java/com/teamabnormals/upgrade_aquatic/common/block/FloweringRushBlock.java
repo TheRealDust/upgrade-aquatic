@@ -23,6 +23,8 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class FloweringRushBlock extends BlueprintTallFlowerBlock implements SimpleWaterloggedBlock, BonemealableBlock {
 	private static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;

@@ -12,16 +12,14 @@ import com.teamabnormals.upgrade_aquatic.client.renderer.entity.jellyfish.Cassio
 import com.teamabnormals.upgrade_aquatic.client.renderer.entity.jellyfish.ImmortalJellyfishRenderer;
 import com.teamabnormals.upgrade_aquatic.core.data.server.UAStructureRepaletterProvider;
 import com.teamabnormals.upgrade_aquatic.core.data.server.modifiers.UAAdvancementModifierProvider;
-import com.teamabnormals.upgrade_aquatic.core.data.server.modifiers.UABiomeModifierProvider;
 import com.teamabnormals.upgrade_aquatic.core.data.server.modifiers.UALootModifierProvider;
-import com.teamabnormals.upgrade_aquatic.core.data.server.tags.UABiomeTagsProvider;
 import com.teamabnormals.upgrade_aquatic.core.data.server.tags.UABlockTagsProvider;
 import com.teamabnormals.upgrade_aquatic.core.data.server.tags.UAEntityTypeTagsProvider;
-import com.teamabnormals.upgrade_aquatic.core.data.server.tags.UAPaintingVariantTagsProvider;
 import com.teamabnormals.upgrade_aquatic.core.other.UAClientCompat;
 import com.teamabnormals.upgrade_aquatic.core.other.UACompat;
 import com.teamabnormals.upgrade_aquatic.core.other.UADataSerializers;
 import com.teamabnormals.upgrade_aquatic.core.other.UADispenseBehaviorRegistry;
+import com.teamabnormals.upgrade_aquatic.core.other.UASpawns;
 import com.teamabnormals.upgrade_aquatic.core.registry.*;
 import com.teamabnormals.upgrade_aquatic.core.registry.UAFeatures.UAConfiguredFeatures;
 import com.teamabnormals.upgrade_aquatic.core.registry.UAFeatures.UAPlacedFeatures;
@@ -34,7 +32,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -44,7 +41,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
 @Mod(value = UpgradeAquatic.MOD_ID)
 public class UpgradeAquatic {
@@ -65,9 +64,7 @@ public class UpgradeAquatic {
 		UAWorldCarvers.UAConfiguredWorldCarvers.CONFIGURED_WORLD_CARVERS.register(bus);
 		UAParticleTypes.PARTICLES.register(bus);
 		UADataSerializers.SERIALIZERS.register(bus);
-		UABiomeModifierTypes.BIOME_MODIFIER_SERIALIZERS.register(bus);
-		UALootConditions.LOOT_CONDITION_TYPES.register(bus);
-		UAPaintingVariants.PAINTING_VARIANTS.register(bus);
+
 
 		MinecraftForge.EVENT_BUS.register(this);
 
@@ -88,7 +85,7 @@ public class UpgradeAquatic {
 	private void commonSetup(FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
 			UACompat.registerCompat();
-			UAEntityTypes.registerSpawnPlacements();
+			UASpawns.registerSpawns();
 			UAMobEffects.registerBrewingRecipes();
 			UADispenseBehaviorRegistry.registerDispenseBehaviors();
 			ObfuscationReflectionHelper.setPrivateValue(BlockBehaviour.class, Blocks.BUBBLE_COLUMN, true, "f_60445_");
@@ -97,17 +94,15 @@ public class UpgradeAquatic {
 
 	private void dataSetup(GatherDataEvent event) {
 		DataGenerator generator = event.getGenerator();
-		ExistingFileHelper fileHelper = event.getExistingFileHelper();
+		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-		boolean includeServer = event.includeServer();
-		generator.addProvider(includeServer, new UALootModifierProvider(generator));
-		generator.addProvider(includeServer, new UAAdvancementModifierProvider(generator));
-		generator.addProvider(includeServer, new UABlockTagsProvider(generator, fileHelper));
-		generator.addProvider(includeServer, new UAEntityTypeTagsProvider(generator, fileHelper));
-		generator.addProvider(includeServer, new UABiomeTagsProvider(generator, fileHelper));
-		generator.addProvider(includeServer, new UAPaintingVariantTagsProvider(generator, fileHelper));
-		generator.addProvider(includeServer, UABiomeModifierProvider.create(generator, fileHelper));
-		generator.addProvider(includeServer, new UAStructureRepaletterProvider(generator));
+		if (event.includeServer()) {
+			generator.addProvider(new UALootModifierProvider(generator));
+			generator.addProvider(new UAAdvancementModifierProvider(generator));
+			generator.addProvider(new UABlockTagsProvider(generator, existingFileHelper));
+			generator.addProvider(new UAEntityTypeTagsProvider(generator, existingFileHelper));
+			generator.addProvider(new UAStructureRepaletterProvider(generator));
+		}
 	}
 
 	private void clientSetup(FMLClientSetupEvent event) {

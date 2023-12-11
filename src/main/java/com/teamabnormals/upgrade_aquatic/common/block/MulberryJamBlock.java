@@ -23,6 +23,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.ForgeRegistries;
 
+
 public class MulberryJamBlock extends HalfTransparentBlock implements SimpleWaterloggedBlock {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 

@@ -3,7 +3,7 @@ package com.teamabnormals.upgrade_aquatic.common.block;
 import com.teamabnormals.upgrade_aquatic.core.registry.UAParticleTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.RandomSource;
+
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -20,6 +20,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.Random;
+
 public class CoralShowerBlock extends CoralPlantBlock {
 	protected static final VoxelShape SHAPE = Block.box(2.0D, 1.0D, 2.0D, 14.0D, 16.0D, 14.0D);
 
@@ -34,7 +36,7 @@ public class CoralShowerBlock extends CoralPlantBlock {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
+	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand) {
 		double xOffset = rand.nextBoolean() ? -(Math.random() * 0.4) : (Math.random() * 0.4);
 		double yOffset = rand.nextBoolean() ? -(Math.random() * 0.4) : (Math.random() * 0.4);
 		double zOffset = rand.nextBoolean() ? -(Math.random() * 0.4) : (Math.random() * 0.4);

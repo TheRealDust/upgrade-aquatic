@@ -12,6 +12,8 @@ import org.jetbrains.annotations.Nullable;
 import static com.teamabnormals.upgrade_aquatic.core.registry.UABlocks.*;
 
 //TODO: Add all the other block tags to this
+import net.minecraft.data.tags.TagsProvider.TagAppender;
+
 public class UABlockTagsProvider extends BlockTagsProvider {
 
 	public UABlockTagsProvider(DataGenerator dataGenerator, @Nullable ExistingFileHelper existingFileHelper) {

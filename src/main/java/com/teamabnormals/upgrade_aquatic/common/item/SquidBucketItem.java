@@ -23,6 +23,8 @@ import net.minecraft.world.level.material.Fluid;
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class SquidBucketItem extends BucketItem {
 	private static final TargetedItemCategoryFiller FILLER = new TargetedItemCategoryFiller(() -> Items.TROPICAL_FISH_BUCKET);
 

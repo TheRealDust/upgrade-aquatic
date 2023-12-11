@@ -6,7 +6,7 @@ import com.teamabnormals.blueprint.core.util.TreeUtil;
 import com.teamabnormals.upgrade_aquatic.common.block.MulberryVineBlock;
 import com.teamabnormals.upgrade_aquatic.core.registry.UABlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
+
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LevelSimulatedRW;
 import net.minecraft.world.level.WorldGenLevel;
@@ -20,6 +20,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.TreeConfigurati
 
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.Random;
 
 public class RiverTreeFeature extends Feature<TreeConfiguration> {
 	public RiverTreeFeature(Codec<TreeConfiguration> config) {
@@ -29,7 +30,7 @@ public class RiverTreeFeature extends Feature<TreeConfiguration> {
 	@Override
 	public boolean place(FeaturePlaceContext<TreeConfiguration> context) {
 		WorldGenLevel level = context.level();
-		RandomSource random = context.random();
+		Random random = context.random();
 		BlockPos origin = context.origin();
 		TreeConfiguration config = context.config();
 		int height = config.trunkPlacer.getTreeHeight(random);
@@ -82,7 +83,7 @@ public class RiverTreeFeature extends Feature<TreeConfiguration> {
 		}
 	}
 
-	private void createLeaves(LevelSimulatedRW worldIn, BlockPos newPos, RandomSource rand, TreeConfiguration config, boolean small) {
+	private void createLeaves(LevelSimulatedRW worldIn, BlockPos newPos, Random rand, TreeConfiguration config, boolean small) {
 		int leafSize = 1;
 		for (int k3 = -leafSize; k3 <= leafSize; ++k3) {
 			for (int j4 = -leafSize; j4 <= leafSize; ++j4) {
@@ -102,7 +103,7 @@ public class RiverTreeFeature extends Feature<TreeConfiguration> {
 		}
 	}
 
-	private void placeLeavesAt(LevelSimulatedRW world, BlockPos pos, RandomSource rand, TreeConfiguration config) {
+	private void placeLeavesAt(LevelSimulatedRW world, BlockPos pos, Random rand, TreeConfiguration config) {
 		TreeUtil.placeLeafAt(world, pos, rand, config);
 		if (world.isStateAtPosition(pos.below(), BlockStateBase::isAir) && rand.nextInt(3) == 0 && rand.nextBoolean()) {
 			BlockState state = UABlocks.MULBERRY_VINE.get().defaultBlockState().setValue(MulberryVineBlock.AGE, 4).setValue(MulberryVineBlock.DOUBLE, rand.nextBoolean());

@@ -5,6 +5,8 @@ import com.teamabnormals.upgrade_aquatic.core.registry.UABlocks.KelpType;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.KelpPlantBlock;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class UAKelpPlantBlock extends KelpPlantBlock {
 	private final KelpType kelpType;
 

@@ -5,6 +5,8 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class ConduitFrameBlock extends Block {
 
 	public ConduitFrameBlock(Properties properties) {

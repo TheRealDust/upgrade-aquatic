@@ -7,6 +7,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.BaseCoralPlantBlock;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class UABaseCoralPlantBlock extends BaseCoralPlantBlock {
 	private static final TargetedItemCategoryFiller FILLER = new TargetedItemCategoryFiller(() -> Items.DEAD_HORN_CORAL);
 

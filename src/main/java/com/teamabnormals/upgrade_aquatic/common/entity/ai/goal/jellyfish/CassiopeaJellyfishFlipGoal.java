@@ -9,6 +9,8 @@ import net.minecraft.world.level.Level;
 
 import java.util.EnumSet;
 
+import net.minecraft.world.entity.ai.goal.Goal.Flag;
+
 public class CassiopeaJellyfishFlipGoal extends Goal {
 	private final CassiopeaJellyfish jellyfish;
 	private final Level world;

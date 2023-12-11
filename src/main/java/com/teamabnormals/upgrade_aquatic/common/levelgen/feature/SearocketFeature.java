@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.teamabnormals.blueprint.core.util.MathUtil;
 import com.teamabnormals.upgrade_aquatic.core.registry.UABlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
+
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
@@ -13,6 +13,7 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import java.util.function.Supplier;
+import java.util.Random;
 
 public class SearocketFeature extends Feature<NoneFeatureConfiguration> {
 
@@ -27,7 +28,7 @@ public class SearocketFeature extends Feature<NoneFeatureConfiguration> {
 	@Override
 	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
 		WorldGenLevel worldIn = context.level();
-		RandomSource rand = context.random();
+		Random rand = context.random();
 		BlockPos pos = context.origin();
 
 		boolean colorType;

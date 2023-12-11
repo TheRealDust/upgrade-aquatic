@@ -45,8 +45,8 @@ public class UABlocks {
 
 	public static final RegistryObject<Block> EMBEDDED_AMMONITE = HELPER.createBlock("embedded_ammonite", () -> new EmbeddedAmmoniteBlock(Properties.copy(Blocks.STONE)), CreativeModeTab.TAB_BUILDING_BLOCKS);
 
-	public static final RegistryObject<Block> WHITE_SEAROCKET = HELPER.createBlock("white_searocket", () -> new SearocketBlock(() -> MobEffects.WATER_BREATHING, 9, PropertyUtil.flower()), CreativeModeTab.TAB_DECORATIONS);
-	public static final RegistryObject<Block> PINK_SEAROCKET = HELPER.createBlock("pink_searocket", () -> new SearocketBlock(() -> MobEffects.WATER_BREATHING, 9, PropertyUtil.flower()), CreativeModeTab.TAB_DECORATIONS);
+	public static final RegistryObject<Block> WHITE_SEAROCKET = HELPER.createBlock("white_searocket", () -> new SearocketBlock(MobEffects.WATER_BREATHING, 9, UAProperties.createSearocket(false)), CreativeModeTab.TAB_DECORATIONS);
+	public static final RegistryObject<Block> PINK_SEAROCKET = HELPER.createBlock("pink_searocket", () -> new SearocketBlock(MobEffects.WATER_BREATHING, 9, UAProperties.createSearocket(true)), CreativeModeTab.TAB_DECORATIONS);
 	public static final RegistryObject<Block> FLOWERING_RUSH = HELPER.createBlock("flowering_rush", () -> new FloweringRushBlock(Properties.copy(Blocks.PEONY).sound(SoundType.WET_GRASS)), CreativeModeTab.TAB_DECORATIONS);
 
 	public static final RegistryObject<Block> BLUE_PICKERELWEED = HELPER.createBlock("blue_pickerelweed", () -> new PickerelweedPlantBlock(UAProperties.PICKERELWEED), CreativeModeTab.TAB_MISC);
@@ -59,10 +59,10 @@ public class UABlocks {
 	public static final RegistryObject<Block> BOILED_BLUE_PICKERELWEED_BLOCK = HELPER.createBlock("boiled_blue_pickerelweed_block", () -> new PickerelweedBlock(UAProperties.createPickerelweedBlock(true), true), CreativeModeTab.TAB_BUILDING_BLOCKS);
 	public static final RegistryObject<Block> BOILED_PURPLE_PICKERELWEED_BLOCK = HELPER.createBlock("boiled_purple_pickerelweed_block", () -> new PickerelweedBlock(UAProperties.createPickerelweedBlock(true), true), CreativeModeTab.TAB_BUILDING_BLOCKS);
 
-	public static final RegistryObject<Block> POTTED_WHITE_SEAROCKET = HELPER.createBlockNoItem("potted_white_searocket", () -> new FlowerPotBlock(WHITE_SEAROCKET.get(), PropertyUtil.flowerPot()));
-	public static final RegistryObject<Block> POTTED_PINK_SEAROCKET = HELPER.createBlockNoItem("potted_pink_searocket", () -> new FlowerPotBlock(PINK_SEAROCKET.get(), PropertyUtil.flowerPot()));
-	public static final RegistryObject<Block> POTTED_BLUE_PICKERELWEED = HELPER.createBlockNoItem("potted_blue_pickerelweed", () -> new FlowerPotBlock(BLUE_PICKERELWEED.get(), PropertyUtil.flowerPot()));
-	public static final RegistryObject<Block> POTTED_PURPLE_PICKERELWEED = HELPER.createBlockNoItem("potted_purple_pickerelweed", () -> new FlowerPotBlock(PURPLE_PICKERELWEED.get(), PropertyUtil.flowerPot()));
+	public static final RegistryObject<Block> POTTED_BLUE_PICKERELWEED = HELPER.createBlockNoItem("potted_blue_pickerelweed", () -> new FlowerPotBlock(BLUE_PICKERELWEED.get(), Block.Properties.of(Material.DECORATION).strength(0.0F)));
+	public static final RegistryObject<Block> POTTED_PURPLE_PICKERELWEED = HELPER.createBlockNoItem("potted_purple_pickerelweed", () -> new FlowerPotBlock(PURPLE_PICKERELWEED.get(), Block.Properties.of(Material.DECORATION).strength(0.0F)));
+	public static final RegistryObject<Block> POTTED_WHITE_SEAROCKET = HELPER.createBlockNoItem("potted_white_searocket", () -> new FlowerPotBlock(WHITE_SEAROCKET.get(), Block.Properties.of(Material.DECORATION).strength(0.0F)));
+	public static final RegistryObject<Block> POTTED_PINK_SEAROCKET = HELPER.createBlockNoItem("potted_pink_searocket", () -> new FlowerPotBlock(PINK_SEAROCKET.get(), Block.Properties.of(Material.DECORATION).strength(0.0F)));
 
 	public static final RegistryObject<Block> BEACHGRASS = HELPER.createBlock("beachgrass", () -> new BeachgrassBlock(Properties.copy(Blocks.FERN)), CreativeModeTab.TAB_DECORATIONS);
 	public static final RegistryObject<Block> TALL_BEACHGRASS = HELPER.createBlock("tall_beachgrass", () -> new TallBeachgrassBlock(Properties.copy(Blocks.LARGE_FERN)), CreativeModeTab.TAB_DECORATIONS);
@@ -71,9 +71,9 @@ public class UABlocks {
 	public static final RegistryObject<Block> BEACHGRASS_THATCH_STAIRS = HELPER.createBlock("beachgrass_thatch_stairs", () -> new ThatchStairBlock(BEACHGRASS_THATCH.get().defaultBlockState(), UAProperties.BEACHGRASS_THATCH), CreativeModeTab.TAB_BUILDING_BLOCKS);
 	public static final RegistryObject<Block> BEACHGRASS_THATCH_VERTICAL_SLAB = HELPER.createCompatBlock("quark", "beachgrass_thatch_vertical_slab", () -> new ThatchVerticalSlabBlock(UAProperties.BEACHGRASS_THATCH), CreativeModeTab.TAB_BUILDING_BLOCKS);
 
-	public static final RegistryObject<Block> MULBERRY_VINE = HELPER.createBlockNoItem("mulberry_vine", () -> new MulberryVineBlock(Block.Properties.of(Material.PLANT).randomTicks().noCollission().sound(SoundType.SWEET_BERRY_BUSH).offsetType(BlockBehaviour.OffsetType.XZ)));
+	public static final RegistryObject<Block> MULBERRY_VINE = HELPER.createBlockNoItem("mulberry_vine", () -> new MulberryVineBlock(Block.Properties.copy(Blocks.SWEET_BERRY_BUSH).randomTicks().noOcclusion()));
 	public static final RegistryObject<Block> MULBERRY_JAM_BLOCK = HELPER.createBlock("mulberry_jam_block", () -> new MulberryJamBlock(Block.Properties.copy(Blocks.SLIME_BLOCK)), CreativeModeTab.TAB_DECORATIONS);
-	public static final RegistryObject<Block> MULBERRY_PUNNET = HELPER.createCompatBlock("berry_good", "mulberry_punnet", () -> new BlueprintDirectionalBlock(Block.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_PINK).strength(1.5F).sound(SoundType.WOOD)), CreativeModeTab.TAB_DECORATIONS);
+	public static final RegistryObject<Block> MULBERRY_PUNNET = HELPER.createCompatBlock("quark", "mulberry_punnet", () -> new Block(Block.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_PINK).strength(1.5F).sound(SoundType.WOOD)), CreativeModeTab.TAB_DECORATIONS);
 
 	public static final RegistryObject<Block> PRISMARINE_ROD_BUNDLE = HELPER.createBlock("prismarine_rod_bundle", () -> new PrismarineRodBlock(Properties.copy(Blocks.PRISMARINE_BRICKS).sound(SoundType.METAL)), CreativeModeTab.TAB_BUILDING_BLOCKS);
 	public static final RegistryObject<Block> LUMINOUS_PRISMARINE = HELPER.createBlock("luminous_prismarine", () -> new ConduitFrameBlock(UAProperties.LUMINOUS_PRISMARINE), CreativeModeTab.TAB_BUILDING_BLOCKS);
@@ -471,8 +471,8 @@ public class UABlocks {
 	public static final RegistryObject<Block> RIVER_LOG = HELPER.createBlock("river_log", () -> new LogBlock(STRIPPED_RIVER_LOG, UAProperties.RIVER_WOOD.log()), CreativeModeTab.TAB_BUILDING_BLOCKS);
 	public static final RegistryObject<Block> RIVER_WOOD = HELPER.createBlock("river_wood", () -> new WoodBlock(STRIPPED_RIVER_WOOD, UAProperties.RIVER_WOOD.log()), CreativeModeTab.TAB_BUILDING_BLOCKS);
 	public static final RegistryObject<Block> RIVER_LEAVES = HELPER.createBlock("river_leaves", () -> new BlueprintLeavesBlock(UAProperties.RIVER_WOOD.leaves()), CreativeModeTab.TAB_DECORATIONS);
-	public static final RegistryObject<Block> RIVER_SAPLING = HELPER.createBlock("river_sapling", () -> new BlueprintSaplingBlock(new RiverTreeGrower(), UAProperties.RIVER_WOOD.sapling()), CreativeModeTab.TAB_DECORATIONS);
-	public static final RegistryObject<Block> POTTED_RIVER_SAPLING = HELPER.createBlockNoItem("potted_river_sapling", () -> new FlowerPotBlock(RIVER_SAPLING.get(), PropertyUtil.flowerPot()));
+	public static final RegistryObject<Block> RIVER_SAPLING = HELPER.createBlock("river_sapling", () -> new BlueprintSaplingBlock(new RiverTreeGrower(), PropertyUtil.SAPLING), CreativeModeTab.TAB_DECORATIONS);
+	public static final RegistryObject<Block> POTTED_RIVER_SAPLING = HELPER.createBlockNoItem("potted_river_sapling", () -> new FlowerPotBlock(RIVER_SAPLING.get(), PropertyUtil.FLOWER_POT));
 	public static final RegistryObject<Block> RIVER_PLANKS = HELPER.createBlock("river_planks", () -> new PlanksBlock(UAProperties.RIVER_WOOD.planks()), CreativeModeTab.TAB_BUILDING_BLOCKS);
 	public static final RegistryObject<Block> RIVER_STAIRS = HELPER.createBlock("river_stairs", () -> new WoodStairBlock(RIVER_PLANKS.get().defaultBlockState(), UAProperties.RIVER_WOOD.planks()), CreativeModeTab.TAB_BUILDING_BLOCKS);
 	public static final RegistryObject<Block> RIVER_SLAB = HELPER.createBlock("river_slab", () -> new WoodSlabBlock(UAProperties.RIVER_WOOD.planks()), CreativeModeTab.TAB_BUILDING_BLOCKS);
@@ -532,6 +532,11 @@ public class UABlocks {
 		public static BlockBehaviour.Properties createPrismarineCoralBlock(boolean elder) {
 			MaterialColor color = !elder ? MaterialColor.DIAMOND : MaterialColor.TERRACOTTA_WHITE;
 			return BlockBehaviour.Properties.of(Material.STONE, color).requiresCorrectToolForDrops().strength(1.5F, 6.0F).lightLevel((unknown) -> (6)).sound(SoundType.GLASS);
+		}
+
+		public static BlockBehaviour.Properties createSearocket(boolean pink) {
+			MaterialColor color = pink ? MaterialColor.COLOR_PINK : MaterialColor.TERRACOTTA_WHITE;
+			return BlockBehaviour.Properties.of(Material.PLANT, color).randomTicks().noCollission().strength(0.0F).sound(SoundType.GRASS);
 		}
 
 		public static BlockBehaviour.Properties createPickerelweedBlock(boolean isBoiled) {

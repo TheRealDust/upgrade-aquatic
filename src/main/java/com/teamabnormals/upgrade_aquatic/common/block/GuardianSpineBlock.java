@@ -8,7 +8,7 @@ import net.minecraft.core.Direction.AxisDirection;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
+
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -30,6 +30,9 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import java.util.Random;
 
 public class GuardianSpineBlock extends DirectionalBlock implements SimpleWaterloggedBlock {
 	public static final BooleanProperty DRAWN = BooleanProperty.create("drawn");
@@ -189,7 +192,7 @@ public class GuardianSpineBlock extends DirectionalBlock implements SimpleWaterl
 		}
 	}
 
-	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
+	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random) {
 		if (!worldIn.isClientSide) {
 			if (state.getValue(DRAWN) && !worldIn.hasNeighborSignal(pos)) {
 				float pitch = state.getValue(ELDER) ? 0.85F : 1.0F;
@@ -220,7 +223,7 @@ public class GuardianSpineBlock extends DirectionalBlock implements SimpleWaterl
 	}
 
 	@Override
-	public BlockPathTypes getBlockPathType(BlockState state, BlockGetter world, BlockPos pos, Mob entity) {
+	public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, Mob entity) {
 		return BlockPathTypes.LAVA;
 	}
 

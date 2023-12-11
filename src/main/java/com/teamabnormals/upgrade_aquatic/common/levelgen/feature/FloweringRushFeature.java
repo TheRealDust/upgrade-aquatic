@@ -5,7 +5,7 @@ import com.teamabnormals.upgrade_aquatic.common.block.FloweringRushBlock;
 import com.teamabnormals.upgrade_aquatic.core.registry.UABlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.RandomSource;
+
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
@@ -13,6 +13,8 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+
+import java.util.Random;
 
 public class FloweringRushFeature extends Feature<NoneFeatureConfiguration> {
 	public FloweringRushFeature(Codec<NoneFeatureConfiguration> configFactoryIn) {
@@ -22,7 +24,7 @@ public class FloweringRushFeature extends Feature<NoneFeatureConfiguration> {
 	@Override
 	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
 		WorldGenLevel worldIn = context.level();
-		RandomSource rand = context.random();
+		Random rand = context.random();
 		BlockPos pos = context.origin();
 		boolean flag = false;
 

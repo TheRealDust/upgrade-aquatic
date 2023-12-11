@@ -10,7 +10,7 @@ import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
 import net.minecraft.stats.StatsCounter;
@@ -20,20 +20,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.CustomizeGuiOverlayEvent;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
 @Mod.EventBusSubscriber(modid = UpgradeAquatic.MOD_ID, value = Dist.CLIENT)
 public class RenderOverlays {
 	private static final Minecraft MC = Minecraft.getInstance();
 
 	@SubscribeEvent
-	public static void renderOverlays(RenderGuiOverlayEvent.Post event) {
-		if (event.getOverlay() == VanillaGuiOverlay.VIGNETTE.type()) {
+	public static void renderOverlays(RenderGameOverlayEvent.PostLayer event) {
+		if (event.getOverlay() == ForgeIngameGui.VIGNETTE_ELEMENT) {
 			int scaledWidth = MC.getWindow().getGuiScaledWidth();
 			int scaledHeight = MC.getWindow().getGuiScaledHeight();
 			LocalPlayer player = MC.player;
@@ -57,7 +55,7 @@ public class RenderOverlays {
 				opacity = 0F;
 			}
 			if (MC.options.getCameraType() == CameraType.FIRST_PERSON && UAConfig.CLIENT.daysTillRenderInsomniaOverlay.get() != 0 && MC.player.getCommandSenderWorld().dimension() == Level.OVERWORLD) {
-				PoseStack stack = event.getPoseStack();
+				PoseStack stack = event.getMatrixStack();
 
 				stack.pushPose();
 				RenderSystem.setShaderTexture(0, new ResourceLocation(UpgradeAquatic.MOD_ID, "textures/gui/overlay/insomnia.png"));
@@ -78,11 +76,11 @@ public class RenderOverlays {
 	}
 
 	@SubscribeEvent
-	public static void renderScuteOverAir(RenderGuiOverlayEvent.Pre event) {
-		if (event.getOverlay() == VanillaGuiOverlay.AIR_LEVEL.type()) {
+	public static void renderScuteOverAir(RenderGameOverlayEvent.PreLayer event) {
+		if (event.getOverlay() == ForgeIngameGui.AIR_LEVEL_ELEMENT) {
 			int scaledWidth = MC.getWindow().getGuiScaledWidth();
 			int scaledHeight = MC.getWindow().getGuiScaledHeight();
-			ForgeGui forgeGui = (ForgeGui) MC.gui;
+			ForgeIngameGui forgeGui = (ForgeIngameGui) MC.gui;
 			LocalPlayer player = MC.player;
 			boolean inWater = player.isEyeInFluid(FluidTags.WATER);
 			if (inWater && forgeGui.shouldDrawSurvivalElements()) {
@@ -96,11 +94,11 @@ public class RenderOverlays {
 				if (!turtleHelmet.isEmpty()) {
 					event.setCanceled(true);
 
-					PoseStack stack = event.getPoseStack();
+					PoseStack stack = event.getMatrixStack();
 					stack.pushPose();
 					RenderSystem.enableBlend();
 					int left = scaledWidth / 2 + 91;
-					int top = scaledHeight - forgeGui.rightHeight;
+					int top = scaledHeight - forgeGui.right_height;
 					int durability = turtleHelmet.getDamageValue();
 					int maxDurability = turtleHelmet.getMaxDamage();
 
@@ -135,7 +133,7 @@ public class RenderOverlays {
 						bufferbuilder.vertex(l, t, 0).uv(0, 0).endVertex();
 						tessellator.end();
 					}
-					forgeGui.rightHeight += 10;
+					forgeGui.right_height += 10;
 
 					RenderSystem.disableBlend();
 					stack.popPose();
@@ -143,12 +141,8 @@ public class RenderOverlays {
 			}
 		}
 
-	}
-
-	@SubscribeEvent
-	public static void removeMountMessage(CustomizeGuiOverlayEvent.DebugText event) {
-		if (MC.player.isPassenger() && MC.player.getVehicle() instanceof Thrasher && MC.gui.overlayMessageString.getString().equals(I18n.get("mount.onboard", I18n.get("key.keyboard.left.shift")))) {
-			MC.gui.setOverlayMessage(Component.literal(""), false);
+		if (event.getType() == ElementType.TEXT && MC.player.isPassenger() && MC.player.getVehicle() instanceof Thrasher && MC.gui.overlayMessageString.getString().equals(I18n.get("mount.onboard", I18n.get("key.keyboard.left.shift")))) {
+			MC.gui.setOverlayMessage(new TextComponent(""), false);
 		}
 	}
 }

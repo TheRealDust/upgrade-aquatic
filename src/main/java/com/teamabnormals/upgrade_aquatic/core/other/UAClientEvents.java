@@ -7,6 +7,7 @@ import com.teamabnormals.upgrade_aquatic.core.UpgradeAquatic;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -59,14 +60,14 @@ public class UAClientEvents {
 	public static void onItemTooltip(ItemTooltipEvent event) {
 		Item item = event.getItemStack().getItem();
 		ResourceLocation name = ForgeRegistries.ITEMS.getKey(item);
-		Player player = event.getEntity();
+		Player player = (Player) event.getEntity();
 		if (name == null || player == null)
 			return;
 
 		if (player.getAbilities().instabuild && UAConfig.CLIENT.showUnobtainableDescription.get() && name.getNamespace().equals(UpgradeAquatic.MOD_ID)) {
 			String id = name.getPath();
 			if (id.contains("jelly") || id.contains("tongue_kelp") || id.contains("polar_kelp") || id.contains("ochre_kelp") || id.contains("thorny_kelp"))
-				event.getToolTip().add(Component.translatable("tooltip.upgrade_aquatic.unobtainable").withStyle(ChatFormatting.GRAY));
+				event.getToolTip().add(new TranslatableComponent("tooltip.upgrade_aquatic.unobtainable").withStyle(ChatFormatting.GRAY));
 		}
 	}
 }

@@ -2,7 +2,7 @@ package com.teamabnormals.upgrade_aquatic.common.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
+
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -11,6 +11,8 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
+
+import java.util.Random;
 
 public class ToothTrapdoorBlock extends TrapDoorBlock {
 
@@ -34,7 +36,7 @@ public class ToothTrapdoorBlock extends TrapDoorBlock {
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
+	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random) {
 		if (!worldIn.isClientSide) {
 			state = state.cycle(OPEN);
 			worldIn.setBlock(pos, state, 2);

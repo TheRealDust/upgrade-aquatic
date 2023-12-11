@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class JellyfishBucketItem extends BucketItem {
 	private static final TargetedItemCategoryFiller FILLER = new TargetedItemCategoryFiller(() -> Items.TROPICAL_FISH_BUCKET);
 
@@ -41,7 +43,7 @@ public class JellyfishBucketItem extends BucketItem {
 			CompoundTag compoundTag = stack.getTag();
 			AbstractJellyfish jellyfish;
 			if (compoundTag != null && compoundTag.contains("EntityType")) {
-				EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(compoundTag.getString("EntityType")));
+				EntityType<?> type = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(compoundTag.getString("EntityType")));
 				if (type == null) return;
 				Entity entity = type.spawn((ServerLevel) level, stack, null, pos, MobSpawnType.BUCKET, true, false);
 				if (!(entity instanceof AbstractJellyfish)) return;

@@ -8,6 +8,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CoralPlantBlock;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class UACoralPlantBlock extends CoralPlantBlock {
 	private static final TargetedItemCategoryFiller FILLER = new TargetedItemCategoryFiller(() -> Items.HORN_CORAL);
 

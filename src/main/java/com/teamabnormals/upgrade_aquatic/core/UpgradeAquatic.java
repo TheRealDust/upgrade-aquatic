@@ -1,7 +1,7 @@
 package com.teamabnormals.upgrade_aquatic.core;
 
 import com.teamabnormals.blueprint.core.util.registry.RegistryHelper;
-import com.teamabnormals.upgrade_aquatic.client.GlowSquidSpriteUploader;
+// import com.teamabnormals.upgrade_aquatic.client.GlowSquidSpriteUploader;
 import com.teamabnormals.upgrade_aquatic.client.model.*;
 import com.teamabnormals.upgrade_aquatic.client.model.jellyfish.BoxJellyfishModel;
 import com.teamabnormals.upgrade_aquatic.client.model.jellyfish.CassiopeaJellyfishModel;
@@ -25,7 +25,7 @@ import com.teamabnormals.upgrade_aquatic.core.registry.UAFeatures.UAConfiguredFe
 import com.teamabnormals.upgrade_aquatic.core.registry.UAFeatures.UAPlacedFeatures;
 import com.teamabnormals.upgrade_aquatic.core.registry.util.UAItemSubRegistryHelper;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.entity.EntityType;
+// import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.api.distmarker.Dist;
@@ -43,7 +43,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.common.data.ExistingFileHelper;
+// import net.minecraftforge.common.data.ExistingFileHelper;
 
 @Mod(value = UpgradeAquatic.MOD_ID)
 public class UpgradeAquatic {
@@ -73,7 +73,7 @@ public class UpgradeAquatic {
 		bus.addListener(this::clientSetup);
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			GlowSquidSpriteUploader.init(bus);
+			// GlowSquidSpriteUploader.init(bus);
 			bus.addListener(this::registerLayerDefinitions);
 			bus.addListener(this::registerRenderers);
 		});
@@ -121,7 +121,7 @@ public class UpgradeAquatic {
 		event.registerLayerDefinition(FlareModel.LOCATION, FlareModel::createBodyLayer);
 		event.registerLayerDefinition(SonarWaveModel.LOCATION, SonarWaveModel::createBodyLayer);
 		event.registerLayerDefinition(UluluModel.LOCATION, UluluModel::createBodyLayer);
-		event.registerLayerDefinition(UAGlowSquidModel.LOCATION, UAGlowSquidModel::createBodyLayer);
+		// event.registerLayerDefinition(UAGlowSquidModel.LOCATION, UAGlowSquidModel::createBodyLayer);
 		event.registerLayerDefinition(GooseModel.LOCATION, GooseModel::createBodyLayer);
 		event.registerLayerDefinition(BoxJellyfishModel.LOCATION, BoxJellyfishModel::createBodyLayer);
 		event.registerLayerDefinition(CassiopeaJellyfishModel.LOCATION, CassiopeaJellyfishModel::createBodyLayer);
@@ -142,6 +142,6 @@ public class UpgradeAquatic {
 		event.registerEntityRenderer(UAEntityTypes.BOX_JELLYFISH.get(), BoxJellyfishRenderer::new);
 		event.registerEntityRenderer(UAEntityTypes.CASSIOPEA_JELLYFISH.get(), CassiopeaJellyfishRenderer::new);
 		event.registerEntityRenderer(UAEntityTypes.IMMORTAL_JELLYFISH.get(), ImmortalJellyfishRenderer::new);
-		event.registerEntityRenderer(EntityType.GLOW_SQUID, UAGlowSquidRenderer::new);
+		// event.registerEntityRenderer(EntityType.GLOW_SQUID, UAGlowSquidRenderer::new);
 	}
 }
